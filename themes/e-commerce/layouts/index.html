@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="{{ .Lang }}">
+{{ partial "head.html" . }}
+
+<body id="page-top" class="index">
+{{ partial "google_tag_manager_after_opening_body_tag.html" }}
+{{ partial "nav.html" . }}
+{{ partial "hero.html" . }}
+
+{{ if .Site.Params.params.product.enable }}
+    {{ partial "product.html"  . }}
+{{ end }}
+
+{{ if .Site.Params.params.about.enable }}
+    {{ partial "about.html" . }}
+{{ end }}
+
+{{ if .Site.Params.params.contact.enable }}
+    {{ partial "contact.html" . }}
+{{ end }}
+
+{{ if .Site.Params.params.footer.enable }}
+    {{ partial "footer.html" . }}
+{{ end }}
+
+{{ partial "js_index.html" . }}
+</body>
+</html>

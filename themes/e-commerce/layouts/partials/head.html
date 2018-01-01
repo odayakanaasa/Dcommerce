@@ -1,0 +1,53 @@
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {{ if .IsHome }}
+  {{ with .Site.Params.params.description }}<meta name="description" content="{{ . }}">{{ end }}
+  {{ else if and (not .IsHome) .IsNode (not .IsPage) }}
+    {{ if isset .Params "description" }}<meta name="description" content="{{ .Description }}">{{ else }}<meta name="description" content="{{ .Title  }}">{{ end }}
+  {{ else }}
+    {{ if isset .Params "description" }}<meta name="description" content="{{ .Description }}">{{ else }}<meta name="description" content="{{ .Summary }}">{{ end }}
+  {{ end }}
+  {{ with .Site.Params.params.name }}<meta name="author" content="{{ . }}">{{ end }}
+  {{ .Hugo.Generator }}
+  <title>{{ .Title }}{{ if not .IsHome }} &middot; {{ .Site.Title }}{{ end }}</title>
+  {{ "<!-- Stylesheets -->" | safeHTML }}
+  {{ if .IsPage }}
+  <meta property="og:title" content="{{ .Title }}"/>
+  <meta property="og:url" content="{{ .Permalink }}"/>
+    {{ if eq .Section "blog"}}
+      {{ $tnUrl := printf "img/blog/%s" .Params.thumbnail }}
+      <meta property="og:image" content="{{ $tnUrl | absLangURL }}"/>
+    {{ end }}
+    {{ if eq .Section "product"}}
+      {{ $tnUrl := printf "img/product/%s" .Params.thumbnail }}
+      <meta property="og:image" content="{{ $tnUrl | absLangURL }}"/>
+    {{ end }}
+
+  <meta property="og:description" content="{{ .Summary }}"/>
+  {{ end }}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+  <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.44/theme-default.min.css" />-->
+  <link href="{{ "css/styles.min.css" | absURL }}" rel="stylesheet">
+
+  {{ range .Site.Params.params.custom_css }}
+    <link rel="stylesheet" href="{{ . | absURL }}">
+  {{ end }}
+  {{ partial "google_tag_manager_in_head_tag.html" }}
+
+  {{ "<!-- Custom Fonts -->" | safeHTML }}
+  <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />-->
+
+  {{ with .Site.Params.params.favicon }}
+    <link rel="shortcut icon" type="image/x-icon" href="{{ . | absURL }}">
+    <link rel="icon" type="image/x-icon" href="{{ . | absURL }}">
+  {{ end }}
+
+  {{ "<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->" | safeHTML }}
+  {{ "<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->" | safeHTML }}
+  {{ "<!--[if lt IE 9]>" | safeHTML }}
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  {{ "<![endif]-->" | safeHTML }}
+</head>
